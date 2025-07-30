@@ -1,0 +1,146 @@
+<!-- Header -->
+
+    <div class="header" id="myHeader">
+        <h1 id="x">Photos</h1>
+        <p id="x">Burada okulumuzdan resimlerimiz bulunmaktadir. Resimler %100 izin alinarak websitemize konulmustur. Ayni zamanda +18 iceriklerde olabilir resimler arasinda, bunlara cokta aldiris etmeyin.</p>
+    <!--<button class="btn" onclick="one()">1</button> -->
+    <!--<button class="btn" onclick="two()">2</button> -->
+    <!--<button class="btn active" onclick="four()">4</button> -->
+    </div>
+    
+    <!-- Photo Grid -->
+    <div class="row"> 
+        <div class="column">
+        <img src="https://dogalsepet.info/public/pictures/0.jpeg" style=width:30%>
+        <img src="https://dogalsepet.info/public/pictures/1.jpeg" style=width:30%>
+        <img src="https://dogalsepet.info/public/pictures/2.jpeg" style=width:30%>
+        <img src="https://dogalsepet.info/public/pictures/3.jpeg" style=width:30%>
+        <!--<img src="https://dogalsepet.info/public/pictures/4.jpeg" style=width:30%>-->
+        <img src="https://dogalsepet.info/public/pictures/5.jpeg" style=width:30%>
+        <!--<img src="https://dogalsepet.info/public/pictures/6.jpeg" stylescr=width:30%>-->
+        <img src="https://dogalsepet.info/public/pictures/7.jpeg" style=width:30%>
+        <img src="https://dogalsepet.info/public/pictures/8.jpeg" style=width:30%>
+        <img src="https://dogalsepet.info/public/pictures/9.jpeg" style=width:30%>
+        <img src="https://dogalsepet.info/public/pictures/10.jpeg" style=width:30%>
+        <!--<img src="https://dogalsepet.info/public/pictures/11.jpeg" style=width:30%>-->
+        <!--<img src="https://dogalsepet.info/public/pictures/12.jpeg" style=width:30%>-->
+        <img src="https://dogalsepet.info/public/pictures/13.jpeg" style=width:30%>
+        <!--<img src="https://dogalsepet.info/public/pictures/14.jpeg" style=width:30%>-->
+        <img src="https://dogalsepet.info/public/pictures/15.jpeg" style=width:30%>
+        <!--<img src="https://dogalsepet.info/public/pictures/16.jpeg" style=width:30%>-->
+        <img src="https://dogalsepet.info/public/pictures/17.jpeg" style=width:30%>
+        <img src="https://dogalsepet.info/public/pictures/18.jpeg" style=width:30%>
+        <!--<img src="https://dogalsepet.info/public/pictures/19.jpeg" style=width:30%>-->
+        <img src="https://dogalsepet.info/public/pictures/20.jpeg" style=width:30%>
+        <!--<img src="https://dogalsepet.info/public/pictures/21.jpeg" style=width:30%>-->
+        <img src="https://dogalsepet.info/public/pictures/22.jpeg" style=width:30%>
+        <!--<img src="https://dogalsepet.info/public/pictures/23.jpeg" style=width:30%>-->
+        <img src="https://dogalsepet.info/public/pictures/24.jpeg" style=width:30%>
+        <img src="https://dogalsepet.info/public/pictures/25.jpeg" style=width:30%>
+        <img src="https://dogalsepet.info/public/pictures/26.jpeg" style=width:30%>
+        <img src="https://dogalsepet.info/public/pictures/27.jpeg" style=width:30%>
+        <img src="https://dogalsepet.info/public/pictures/28.jpeg" style=width:30%>
+        <img src="https://dogalsepet.info/public/pictures/30.jpg" style=width:30%>
+        <img src="https://dogalsepet.info/public/pictures/31.jpg" style=width:30%>
+        <img src="https://dogalsepet.info/public/pictures/32.jpg" style=width:30%>
+        <img src="https://dogalsepet.info/public/pictures/33.jpg" style=width:30%>
+        <img src="https://dogalsepet.info/public/pictures/34.jpg" style=width:30%>
+        <img src="https://dogalsepet.info/public/pictures/35.jpg" style=width:30%>
+        <img src="https://dogalsepet.info/public/pictures/36.jpg" style=width:30%>
+        <img src="https://dogalsepet.info/public/pictures/37.jpeg" style=width:30%>
+        <img src="https://dogalsepet.info/public/pictures/38.jpeg" style=width:30%>
+        <img src="https://dogalsepet.info/public/pictures/39.jpeg" style=width:30%>
+        <img src="https://dogalsepet.info/public/pictures/40.jpeg" style=width:30%>
+        <img src="https://dogalsepet.info/public/pictures/41.jpeg" style=width:30%>
+        <img src="https://dogalsepet.info/public/pictures/42.jpeg" style=width:30%>
+        <!--<img src="https://dogalsepet.info/public/pictures/43.jpeg" style=width:30%>-->
+        <!--<img src="https://dogalsepet.info/public/pictures/44.jpeg" style=width:30%>-->
+        <!--<img src="https://dogalsepet.info/public/pictures/45.jpeg" style=width:30%>-->
+        <!--<img src="https://dogalsepet.info/public/pictures/46.jpg" style=width:30%>-->
+        <!--<img src="https://dogalsepet.info/public/pictures/29.jpeg" style=width:30%>-->
+        <!--<dev style="overflow: hidden; display: flex; align-items: center;">
+            <p1 id="x" style="float:left" width="" height="300">Necip Fazil Uzunkürek tarafindan eklenilmesi talep edilip politikalarimiza uygun oldugundan dolayi kabul edilmistir. Telif hakki Necip Fazil Uzunküregindir kullanmadan önce irtibata geciniz. (yoksa Necip ananie...)</p1>
+            <video style="float:right" width="640" height="360" controls>
+            <source src="https://dogalsepet.info/public/pictures/mert.mp4" type="video/mp4">
+            </video>-->
+        </dev>
+        <br>
+        <a href="https://dogalsepet.info/public/pictures/3.mp4" class="m1">HÜSEYIN CEKERKEN YAKALANIYOR</a>
+        <br>
+        <br>
+        <a href="https://dogalsepet.info/public/pictures/0.mp4" class="m2">NECIPIN ELINDEKI SEYE DIKKAT EDIN (aleti hazirliyor)</a>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+  <!--<h1 class="X Q">HXR Website</h1>
+  <p7 id="x">Okulumuzun sitesidir. %100 güvenli ve gerekli izinler alinarak gelistirilmektedir (opsiyonel).</p7>
+  <br></br>
+  <p5 id="z">Contact kismi calismiyor bu arada zamanim olmadigi icin yetismedi insallah ilerleyen günlerde yapilacaktir. Yazilim ekibimize yada direk ekibimize (yazilim olmasi sart degil grafik tasarim falanda olur (zaten websiteye bakinca tasarimimin ne kadar kötü oldugu belli oluyordur)) isteyenler alttaki Communication kisminda yazan numaraya whatsapp üzerinden yada gmaile mesaj atarak bize ulasabilir. Ugrasamam diyosan SG ...</p5> 
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <p3 id="y"></p3>
+  <br></br>
+  <div class="header">
+      <h1>Dursun Ali Kurt Anadolu Imam Hatip Lisesi</h1>
+      <p id="a">umarim isim dogrudur ...</p>
+  </div>
+    
+    <div class="topnav">
+      <a href="https://404v.productions">404_productions</a>
+      <a href="https://www.instagram.com/404vproductions/">Instagram</a>
+      <a href="https://www.youtube.com/@Rusyazar">#reklam degildir</a>
+      <a href="https://dogalsepet.info/public/pictures/1.mp4" style="float:right">Merte düzenlenen GAPS</a>
+    </div>
+    
+    <div class="row">
+      <div class="leftcolumn">
+        <div class="card">
+          <h2 id="x">404 productions</h2>
+          <h5 id="a">Sponsorumuz 404 Productions sirketi hakkinda size bilgi vermek istiyorum. Ürünleriniz icin muazzam reklamlar yapabilir, yada herhangi baska bir konuda sizin icin video cekimleri yapabilirler, ayni zamanda website de yapiyorlar, gercekten cok iyi bi sirkettir, https://404v.productions/ adresinden ulasabilirsiniz. Bize sponsor olduklari icin kendilerine tesekkür ediyoruz.</h5>
+          <img class="" style="float:right"src="https://dogalsepet.info/public/pictures/17.jpeg"widht="270" height="270">
+          <p id="x">About Us</p>
+          <p id="x">Agza vermekle ün salan fizikcimiz Güntac(s) Bayraktarin alparin agzina verirken yakalanan görüntüleri.<br> (alparin durumdan ne kadar memnun oldugu bilinmiyor bu fotografta, zorlu yaptirim olabilir.)</p>
+        </div>
+        <div class="card">
+          <img style="float:right" src="https://dogalsepet.info/public/pictures/18.jpeg"width="300" height="300">
+          <h2 id="a">Okulumuzun Gururu: Necip Fazil Uzunkürek</h2>
+          <h5 id="a">Arkadas cok iyi bir sairdir (cogunlukla efkarlidir, günde min 2 paket yakar), hic derslere calismayip gece gündüz craftrise da insanlara ana avrat sövüp herkesin keyfini kacirmayla yükümlü olan, ancak sinav zamani geldiginde tüm dersleri domaltip matematikten 45 alip ün salmis, evde abisinin baskisiyla cözdügü 3 paragraf sorusuyla denemede ismini "Basitti" diye kodlayip 120 Net yapacak bir dereceye gelmistir. Duruma göre oldukca orospu cocugu bir kimlige bürünebileceginide belirtip ayaginizi denk almaniz gerektigini hatirlatmakta fayda, hic tekin bir insan degildir, gece bir an uykunuz bölünebilir.</h5> <a href="https://dogalsepet.info/public/pictures/necip.mp4">Necip Fazil Uzunkürek Sahnede !!!</a>
+          <p id="x" style="float:left">Communication:<br>HXR: 541 108 30 61<br>gmail: hxrx82403@gmail.com<br></p>
+          <p id="a"></p>
+          <p id="a"></p>
+        </div>
+      </div>
+      <div class="rightcolumn">
+        <div class="card">
+          <h2 id="a"></h2>
+          <img class="" src="">  
+          <p id="a"></p>
+        </div>
+        <div class="card">
+          <h3 id="a">Popular Post</h3>
+          <img class="" src="https://dogalsepet.info/public/pictures/0.jpeg"width="280" height="622"><p id="a">kaynak: g.feridün.net</p></img>
+          <a href="https://dogalsepet.info/public/pictures/2.mp4">OE nin bizi yakaladigi bir olay</a>
+          <div class="fakeimg" id="a"><p></p></div>
+          <div class="fakeimg" id="a"><p></p></div>
+        </div>
+        <div class="card">
+          <h3 id="a"></h3>
+          <p id="a">Yazilimci: HXR</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+      <p8 class="X Y">from HXR...</p8>
+    </div> -->

@@ -1,0 +1,311 @@
+/*Page style(Photos)*/
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  .header {
+    text-align: center;
+    padding: 32px;
+  }
+  
+  .row {
+    display: -ms-flexbox; /* IE 10 */
+    display: flex;
+    -ms-flex-wrap: wrap; /* IE 10 */
+    flex-wrap: wrap;
+    padding: 0 4px;
+  }
+  
+  /* Create two equal columns that sits next to each other */
+  .column {
+    -ms-flex: 50%; /* IE 10 */
+    flex: 50;
+    padding: 0 4px;
+  }
+  
+  .column img {
+    margin-top: 8px;
+    vertical-align: middle;
+  }
+  
+  /* Style the buttons */
+  .btn {
+    border: none;
+    outline: none;
+    padding: 10px 16px;
+    background-color: #f1f1f1;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  
+  .btn:hover {
+    background-color: #ddd;
+  }
+  
+  .btn.active {
+    background-color: #666;
+    color: white;
+  }
+  
+  /*Page style(Home)*/
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial;
+    padding: 10px;
+    background: rgb(0, 255, 0);
+  }
+  
+  /* Header/Blog Title */
+  .header {
+    padding: 30px;
+    text-align: center;
+    background: rgb(0, 0, 0);
+  }
+  
+  .header h1 {
+    font-size: 50px;
+  }
+  
+  /* Style the top navigation bar */
+  .topnav {
+    overflow: hidden;
+    background-color: rgb(0, 0, 0);
+  }
+  
+  /* Style the topnav links */
+  .topnav a {
+    float: left;
+    display: block;
+    color: rgb(0, 255, 0);
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  /* Change color on hover */
+  .topnav a:hover {
+    background-color: rgb(0, 255, 0);
+    color: rgb(0, 120, 0);
+  }
+  
+  /* Create two unequal columns that floats next to each other */
+  /* Left column */
+  .leftcolumn {   
+    float: left;
+    width: 75%;
+  }
+  
+  /* Right column */
+  .rightcolumn {
+    float: left;
+    width: 25%;
+    background-color: rgb(60, 60, 60);
+    padding-left: 20px;
+  }
+  
+  /* Fake image */
+  .fakeimg {
+    background-image: url("https://dogalsepet.info/public/pictures/background.jpg");
+    background-attachment: fixed;
+    width: 100%;
+    padding: 20px;
+  }
+  
+  /* Add a card effect for articles */
+  .card {
+    background-color: rgb(0, 0, 0);
+    padding: 20px;
+    margin-top: 20px;
+  }
+  
+  /* Clear floats after the columns */
+  .row::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  /* Footer */
+  .footer {
+    padding: 20px;
+    text-align: center;
+    background: rgb(60, 60, 60);
+    margin-top: 20px;
+  }
+  
+  /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
+  @media screen and (max-width: 800px) {
+    .leftcolumn, .rightcolumn {   
+      width: 100%;
+      padding: 0;
+    }
+  }
+  
+  /* Responsive layout - when the screen is less than 400px wide, make the navigation links stack on top of each other instead of next to each other */
+  @media screen and (max-width: 400px) {
+    .topnav a {
+      float: none;
+      width: 100%;
+    }
+  }
+  
+  /*These are the style codes of the contact form*/
+  body {font-family: Arial, Helvetica, sans-serif;}
+  * {box-sizing: border-box;}
+  
+  input[type=text], select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid rgb(40, 40, 40);
+    border-radius: 4px;
+    background-color: rgb(40, 40, 40);
+    color: rgb(0, 255, 0);
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+  }
+  
+  input[type=submit] {
+    background-color: rgb(60, 60, 60);
+    color: rgb(0, 255, 0);
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  input[type=submit]:hover {
+    background-color: rgb(0, 0, 0);
+  }
+  
+  .container {
+    border-radius: 5px;
+    background-image: url("https://dogalsepet.info/public/pictures/background.jpg");
+    background-attachment: fixed;
+    padding: 20px;
+  }
+  
+  /*These are the codes of the tabs on the left of the page.*/
+  * {box-sizing: border-box}
+  body {font-family: "Lato", sans-serif;}
+  
+  /* Style the tab */
+  .tab {
+    float: left;
+    border: 1px solid rgb(40, 40, 40);
+    background-color: rgb(80, 80, 80);
+    width: 15%;
+    height: 2750px;
+  }
+  
+  /* Style the buttons inside the tab */
+  .tab button {
+    display: block;
+    background-color: inherit;
+    color: black;
+    padding: 44px 16px;
+    width: 100%;
+    border: none;
+    outline: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 34px;
+  }
+  
+  /* Change background color of buttons on hover */
+  .tab button:hover {
+    background-color: rgb(0, 255, 0);
+  }
+  
+  /* Create an active/current "tab button" class */
+  .tab button.active {
+    background-color: rgb(0, 255, 0);
+  }
+  
+  /* Style the tab content */
+  .tabcontent {
+    float: left;
+    padding: 0px 12px;
+    width: 85%;
+    border-left: none;
+    height: 1850px;
+    display: none;
+  }
+  
+  /* Clear floats after the tab */
+  .clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  
+  /*These are the codes of the link at the end of the page.*/
+  /* unvisited link */
+  a:link {
+    color: rgb(0, 255, 0);
+  }
+  
+  /* visited link */
+  a:visited {
+    color: green;
+  }
+  
+  /* mouse over link */
+  a:hover {
+    color: hotpink;
+  }
+  
+  /* selected link */
+  a:active {
+    color: blue;
+  }
+  /*this are the codes of the paragraphs or headings*/
+  body {
+    background-image: url("https://dogalsepet.info/public/pictures/background.jpg");
+    background-attachment: fixed;
+  }
+  h.Q {
+    font-size: 50px;
+    font-family:"Courier New", monospace;
+  }
+  p8.Y {
+    font-size: 35px;
+  }
+  p8.X {
+    color: rgb(0, 255, 0);
+    border-bottom: 8px solid rgb(0, 255, 0);
+  }
+  #s {color: rgb(0, 255, 0)}
+  #b {font-size: 25px;}
+  #a {color: rgb(0, 255, 0); font-size:18px;font-family:"Courier New", monospace;}
+  #x {color: rgb(0, 255, 0); font-size:25px;font-family:"Courier New", monospace;}
+  #y {color: rgb(0, 255, 0); font-size:20px;}
+  #z {color:rgb(0, 255, 0); font-size:27px}
+  #q {color:rgb(0, 255, 0); font-size:15px}
+  h1 {font-size:100px; color: rgb(0, 255, 0); font-style:verdana; text-align:center;}
+  * {font-family:"Courier New", monospace;}
+
+  .m {
+    font-size: 120px;
+    text-align: center;
+    font-weight: 2000;
+  }
+  .m1 {
+    font-size: 40px;
+    text-align: center;
+    font-weight: 1000;
+  }
+  .m2 {
+    font-size: 40px;
+    text-align: center;
+    font-weight: 1000;
+  }
