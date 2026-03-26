@@ -1,18 +1,19 @@
-//#region Imports
-// src/product/product.module.ts
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Users } from './users.entity';
-import { usersService } from './users.service';
-import { SignIn, UsersController } from './users.controller';
-//#endregion
+import { Users } from './entities/users.entity';
+import { UsersService } from './users.service';
+import { UsersController } from './users.controller';
+import { AuthModule } from '../auth/auth.module';
 
-//#region Module
 @Module({
-  imports: [TypeOrmModule.forFeature([Users])],
-  providers: [usersService],
-  controllers: [UsersController, SignIn],
-  exports: [usersService],
+  imports: [TypeOrmModule.forFeature([Users]),
+    forwardRef(() => AuthModule),
+    JwtModule.register({
+      secret: process.env.JWT_SECRET,
+      signOptions: {algorithm: 'HS256', expiresIn: '15m'}})],
+  providers: [UsersService],
+  controllers: [UsersController],
+  exports: [UsersService, JwtModule]
 })
 export class UserModule {}
-//#endregion

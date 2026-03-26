@@ -10,7 +10,7 @@ export class MailService {
       service: 'gmail',
       auth: {
         user: 'hxrx82403@gmail.com',
-        pass: 'hbiw easv huyz xjca', // Gmail uygulama şifresi
+        pass: 'ydhc qfge pnlo vnav',
       },
     });
   }
