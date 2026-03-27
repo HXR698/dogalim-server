@@ -1,18 +1,14 @@
-//#region Imports
-// src/product/product.module.ts
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Product } from './product.entity';
-import { productService } from './product.service';
+import { Product } from './entities/product.entity';
+import { ProductService } from './product.service';
 import { ProductController } from './product.controller';
-//#endregion
+import { Prodht } from '../prodht/entities/prodht.entity';
 
-//#region Module
 @Module({
-  imports: [TypeOrmModule.forFeature([Product])],
-  providers: [productService],
+  imports: [TypeOrmModule.forFeature([Product, Prodht])],
+  providers: [ProductService],
   controllers: [ProductController],
-  exports: [productService],
+  exports: [ProductService],
 })
 export class ProductModule {}
-//#endregion

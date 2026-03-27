@@ -1,55 +1,46 @@
-//#region Imports
-import { Injectable } from '@nestjs/common';
+import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Int32, IntegerType, Repository } from 'typeorm';
-import { Users } from './users.entity';
-import { NotFoundException } from '@nestjs/common';
-import * as crypto from 'crypto';
-//#endregion
+import { Repository, QueryFailedError } from 'typeorm';
+import { Users } from './entities/users.entity';
+import * as argon2 from 'argon2';
 
-//#region SHA-256 Hash
-function sha256Hash(data: string): string {
-  return crypto.createHash('sha256').update(data).digest('hex');
-}
-//#endregion
+/*const hashedPassword = await argon2.hash(data.password, {
+  type: argon2.argon2id,
+  memoryCost: Number(process.env.ARGON_MEMORY) || 65536,
+  timeCost: Number(process.env.ARGON_TIME) || 3,
+  parallelism: 1,
+});*/
 
 @Injectable()
-export class usersService {
-    //#region Constructor
+export class UsersService {
     constructor(
         @InjectRepository(Users)
         private readonly userRepo: Repository<Users>,
-    ) {}
-    //#endregion
+    ) {/*console.log(userRepo)*/}
 
-    //#region Add User
     async addUser(data: { user_name: string; mail_adr: string; password: string;}) {
-        const user = this.userRepo.create(data);
-        return this.userRepo.save(user);
-    }
-    //#endregion
-
-    //#region Get User By ID
-    async getUserById(id: number): Promise<Users> {
-        const user =  await this.userRepo.findOneBy({ id });
-        if (!user) {
-        throw new NotFoundException(`User with id ${id} not found`);
+        const hashedPass = await argon2.hash(data.password, {type: argon2.argon2id, memoryCost: 2 ** 16, timeCost: 3, parallelism: 1});
+        const user = this.userRepo.create({user_name: data.user_name, mail_adr: data.mail_adr, password: hashedPass});
+        try {
+            await this.userRepo.save(user);
+            return {success: true};
+        } catch (err) {
+            if (err instanceof QueryFailedError) {
+                const driverError = (err as any).driverError;
+                if (driverError?.code === '23505') throw new ConflictException('Email already exists');
+            }
+            throw err;
+            // return {success: false};
         }
+    }
+
+    async findUserById(id: number): Promise<Users> {
+        const user =  await this.userRepo.findOneBy({ id });
+        if (!user) {throw new NotFoundException(`User with id ${id} not found`);}
         return user;
     }
-    //#endregion
 
-    //#region Get User Pass
-    async getUserPass(username: string): Promise<string | null> {
-        const pass = await this.userRepo.findOne({where: { mail_adr: username }, select: ['password']});
-        return pass ? pass.password : null;
+    async findByEmail(email: string): Promise<Users | null> {
+        return this.userRepo.findOne({where: { mail_adr: email }});
     }
-    //#endregion
-
-    //#region Get User By Email
-    async getUserByEmail(email: string): Promise<IntegerType | null> {
-        const userID = await this.userRepo.findOne({where: { mail_adr: email}, select: ['id']});
-        return userID ? userID.id : null;
-    }
-    //#endregion
 }

@@ -1,42 +1,44 @@
-//#region Imports
-// src/product/product.controller.ts
-import { Controller, Get, Body, Post } from '@nestjs/common';
-import { Product } from './product.entity';
-import { constants } from 'buffer';
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { productService } from './product.service';
-//#endregion
+import { Controller, Delete, Get, ParseIntPipe, Body, Post, Patch, Param, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { ProductService } from './product.service';
+import { CreateProductDto } from './dto/create-product.dto';
+import { CurrentUser } from '../common/decorators/current-user.decorator';
+import { UpdateProductDto } from './dto/update-product.dto';
 
-//#region Controller way = /add/product (Add Product)
-@Controller('add/product')
+//! updated for authorization attacks
+//? basic algorithm is done
+
+@Controller('product')
 export class ProductController {
-  //#region Constructor
-  constructor(private readonly productService: productService) {}
-  //#endregion
+  constructor(private readonly productService: ProductService) {}
 
-  //#region Handle Post Command
+  @UseGuards(AuthGuard('jwt'))
   @Post()
-  async handlePostCommand(@Body() data: any): Promise<String> {
-    // command info(name price evaluation explanation)
-    const command = data.command;
-    //#region Save Product
-    if (command === "0") {
-      var productInfo = data.info;
-      productInfo = productInfo.split("|");
-      const savedProduct = await this.productService.addProduct({name: productInfo[0], price: productInfo[1], evaluation: productInfo[2], explanation: productInfo[3]});
-      return `ürün ${savedProduct.id} numarali id ile kaydedildi.`;
-    }
-    //#endregion
-    //#region Get Product By ID
-    else if (command === "1") {
-      const product_0 = await this.productService.getProductById(data.id);
-      return `1|${product_0.id}|${product_0.name}|${product_0.evaluation}|${product_0.price}|${product_0.explanation}`;
-    }
-    //#endregion
-    return "0";
+  create(@CurrentUser('id') userId: number, @Body() data: CreateProductDto) {
+    return this.productService.createProd(userId, data);
   }
-  //#endregion
+
+  @UseGuards(AuthGuard('jwt'))
+  @Patch(':id')
+  updateProd(@Param('id', ParseIntPipe) prodId: number, @Body() body: UpdateProductDto, @CurrentUser('id') sellerId: number) {
+    return this.productService.update(sellerId, prodId, body);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Delete(':id')
+  removeProd(@CurrentUser('id') sellerId: number, @Param('id', ParseIntPipe) prodId: number) {
+    return this.productService.remove(sellerId, prodId);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('prod/:prodId')
+  getProd(@Param('prodId', ParseIntPipe) sellerId: number) {
+    return this.productService.getProductById(sellerId);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('price/:prodId')
+  getProdPrice(@Param('prodId', ParseIntPipe) sellerId: number) {
+    return this.productService.getProductPriceById(sellerId);
+  }
 }
-//#endregion

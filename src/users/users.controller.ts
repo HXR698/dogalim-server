@@ -1,96 +1,65 @@
-//#region Imports
-// src/product/product.controller.ts
-import { Controller, Get, Body, Post } from '@nestjs/common';
-import { Users } from './users.entity';
-import { constants } from 'buffer';
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { usersService } from './users.service';
-import * as crypto from 'crypto';
-import { MailService } from 'src/mail/mail.service';
-//#endregion
+import { Controller, Body, Post, Get, Req, UseGuards } from '@nestjs/common';
+import { Request } from 'express';
+import { UsersService } from './users.service';
+import { AuthService } from '../auth/auth.service';
+import { AuthGuard } from '@nestjs/passport';
+import { LoginDto } from '../auth/dto/login.dto/login.dto';
+import { CreateUserDto } from './dto/create-user.dto';
 
-//#region SHA-256 Hash
-function sha256Hash(data: string): string {
-  return crypto.createHash('sha256').update(data).digest('hex');
+//! updated for authorization attacks
+//? basic algorithm is done
+
+// ögrenci projesi = done
+// startup MVP = done
+// kücük SaaS = ek güvenlik gerekir
+// büyük production = ek mimari gerekir
+
+interface JwtRequest extends Request {
+  user: { userId: number };
 }
-//#endregion
 
-//#region Normalize Input
-function normalizeInput(str: string): string {
-  return str.normalize().replace(/[\u0000-\u001F\u007F-\u009F]/g, '').trim();
-}
-//#endregion
-
-//#region Controller way = /add/user (Add User)
-@Controller('add/user')
+// Controller way = /users (User) /add &
+@Controller('users')
 export class UsersController {
-  //#region Constructor
-  constructor(private readonly userService: usersService) {}
-  //#endregion
+  constructor(private readonly userService: UsersService, private readonly authService: AuthService) {}
 
-  //#region Handle Post Command
-  @Post()
-  async handlePostCommand(@Body() data: any): Promise<String> {
-    try {
-      // command info(user_name mail_adr password)
-      const command = data.command;
-      //#region Save User
-      if (command === "0") {
-        var userInfo = data.info;
-        userInfo = userInfo.split("|");
-        userInfo[2] = userInfo[2].trim();
-        userInfo[2] = normalizeInput(userInfo[2])
-        userInfo[2] = sha256Hash(userInfo[2]);
-        const savedUser = await this.userService.addUser({user_name: userInfo[0], mail_adr: userInfo[1], password: userInfo[2]});
-        return "1";
-      }
-      //#endregion
-
-      //#region Get User By ID
-      else if (command === "1") {
-        const user_0 = await this.userService.getUserById(data.id);
-        return `1|${user_0.id}|${user_0.user_name}|${user_0.mail_adr}|${user_0.password}`;
-      }
-      //#endregion
-      return "0";
-    }
-    catch (error)
-    {
-      console.log(error.message);
-      return "0";
-    }
+  @Post('create')
+  async addUser(@Body() body: CreateUserDto) {
+    return await this.userService.addUser({
+      user_name: body.user_name,
+      mail_adr: body.mail_adr,
+      password: body.password,
+    });
   }
-  //#endregion
-}
-//#endregion
 
-//#region Controller way = /signin (Sign In)
-@Controller('signin')
-export class SignIn {
-  //#region Constructor
-  constructor(private readonly userService: usersService) {}
-  //#endregion
+  @UseGuards(AuthGuard('jwt'))
+  @Get('me')
+  async getUser(@Req() req: JwtRequest) {
 
-  //#region Handle Post Command
-  @Post()
-  async handleSignIn(@Body() data: any): Promise<String> {
-    const command = data.command;
-    //#region Sign In
-    if (command === "0") {
-      var userInfo = data.info;
-      userInfo = userInfo.split("|");
-      userInfo[1] = userInfo[1].trim();
-      userInfo[1] = normalizeInput(userInfo[1])
-      userInfo[1] = sha256Hash(userInfo[1]);
-      if (userInfo[1] === await this.userService.getUserPass(`${userInfo[0]}`)) {
-        return "1";
-      }
-    }
-    //#endregion
-    return "0";
+    const user = req.user;
+
+    const userData = await this.userService.findUserById(user.userId);
+
+    return {
+      data: {
+        id: userData.id,
+        name: userData.user_name,
+        mail_adr: userData.mail_adr,
+      },
+    };
   }
-  //#endregion
+
+  @Post('signin')
+  async signin(@Body() body: LoginDto, @Req() req: Request) {
+    const data = await this.authService.login({email: body.email, password: body.password, device: {deviceId: body.deviceId, ip: req.ip, userAgent: req.headers['user-agent'] as string}});
+    return {
+      data: {
+        id: data.userData?.id,
+        name: data.userData?.user_name,
+        mail_adr: data.userData?.mail_adr,
+      },
+      accessToken: data.tokens.accessToken,
+      refreshToken: data.tokens.refreshToken
+    };
+  }
 }
-//#endregion
