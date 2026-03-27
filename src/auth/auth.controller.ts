@@ -14,4 +14,12 @@ export class AuthController {
     if (!tokens) throw new UnauthorizedException('Invalid credentials');
     return tokens;
   }
+
+  @Post('seller/signin')
+  async sellersignin(@Body() body: any, @Req() req: Request) {
+    const { email, password } = body;
+    const tokens = await this.authService.sellersignin(email, password, {deviceId: req.headers['x-device-id'] as string, userAgent: req.headers['user-agent'], ip: req.ip});
+    if (!tokens) throw new UnauthorizedException('Invalid credentials');
+    return tokens;
+  }
 }

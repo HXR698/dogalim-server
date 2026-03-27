@@ -36,8 +36,8 @@ export class FollowsController {
   }
 
   @Get(':id')
-  findOne(@CurrentUser() userId: number, @Param('id', ParseIntPipe) sellerId: number) {
-    return this.followsService.exists(userId, sellerId);
+  findOne(@CurrentUser() user: Users, @Param('id', ParseIntPipe) sellerId: number) {
+    return this.followsService.exists(user.id, sellerId);
   }
 
   @Delete(':id')

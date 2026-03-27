@@ -1,4 +1,7 @@
 // database
+CREATE DATABASE dogalimDB
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
 
 // users & address
 CREATE TABLE users (

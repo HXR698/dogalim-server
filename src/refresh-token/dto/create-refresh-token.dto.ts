@@ -1,4 +1,4 @@
-import { IsInt, IsString, IsOptional, IsDate, Length } from 'class-validator';
+import { IsString, IsOptional, IsDate, Length } from 'class-validator';
 
 export class CreateRefreshTokenDto {
   @IsString()
@@ -25,9 +25,6 @@ export class CreateSellerRefreshTokenDto {
   @IsString()
   @Length(64, 64)
   refreshToken!: string;
-
-  @IsInt()
-  userid!: number;
 
   @IsString()
   @Length(1, 128)

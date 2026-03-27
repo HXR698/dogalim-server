@@ -53,6 +53,10 @@ export class SellersService {
     }
   }
 
+  async findByEmail(email: string): Promise<Sellers | null> {
+      return this.sellerRepo.findOne({where: { mail_adr: email }});
+  }
+
   async verifyPass(id: number, gPass: string) {
     const seller = await this.sellerRepo.findOne({where: { id }, select: ['password']});
     if (!seller) throw new UnauthorizedException('Invalid credentials');

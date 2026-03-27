@@ -1,4 +1,3 @@
-// src/product/product.controller.ts
 import { Controller, Body, Post, Get, Req, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
 import { UsersService } from './users.service';
