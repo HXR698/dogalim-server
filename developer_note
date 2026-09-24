@@ -1,0 +1,284 @@
+Dear programmer:
+When I wrote this code, only god and I knew how it worked.
+Now only god knows it!
+
+Therefore, if you are trying to optimize this routine and it fails (most surely),
+please increase this counter as a warning for the next person
+
+total_hours_wasted_here = 46
+
+
+
+DB Tables
+
+PostgreSQL = {users, sellers, address, follows, sellerht, prodht, likedprods, prodcom, sellercom, prod, orders}
+Redis      = {cart, otp, tokens}
+
+users: {username, email, pass_hash, phone, created_at, updated_at}
+sellers: {storename, email, pass_hash, phone, rating, reviewcount, minbasketamount, isapproved, is_open, created_at}
+address: {userid, city, district, neighborhood, street, building_no, apartment_no, addresstitle, directions, latitude, longitude}
+cart: {sellers: [{seller_id, seller_name, items: [{product_id, name, quantity, price}], sub_total}], grand_total}
+otp: {key, value: {code, attempts}, ttl_seconds} //otp:signup:user otp:signup:sellers
+follows: {userid, sellerid, created_at}
+sellerht: {name} //hashtags
+prodht: {name} //hashtags
+sellerhtit: {sellerid, hashtagid} //hashtags interim table
+prodhtit: {prodid, hashtagid} //hashtags interim table
+likedprods: {userid, prodid, created_at}
+prodcom: {prodid, userid, rating, comment, created_at}
+sellercom: {sellerid, userid, rating, comment, created_at} //seller reviews
+prod: {serllerid, name, price, stock, description, rating, reviewcount, imageUrl, isAvailable, prepare_time, created_at}
+orders: {userid, total_amount, courierid, status, payment_method, addressid, estimated_prep_time, created_at}
+orderitems: {orderid, prodid, quantity, price}
+lastorders: {userid, total_amount, courierid, payment_method, addressid, estimated_prep_time, created_at, delivered_at}
+couriers: {name, phone, email, pass_hash, vehicle_type, is_active, current_latitude, current_longitude}
+
+=== One to Many ===
+User => Address
+User => Orders
+Seller => Prod
+Orders => OrderItems
+Prod => OrderItems
+
+=== Many to One ===
+Orders => Couriers
+LastOrders => Couriers
+Orders => Address
+LastOrders => Address
+
+=== Many to Many ===
+User => Seller
+User => Prod
+Seller => SellerHt
+Prod => ProdHt
+Prod => User
+Seller => User
+
+auth; users; sellers; prods; cart; orders; couriers; otp; follows; favprods; hashtags; bff;
+
+D - users; sellers; prods; orders; follows; favprods; hashtags;
+D - cart; auth; otp;
+H - users; sellers; prods; orders; follows; favprods; hashtags; cart; auth; otp; # controller and modules
+H - couriers;
+H - couriers; module and controller
+bff;
+
+
+kurye ile restoran arasindaki mesafe
+kuryenin yogunluk durumu
+restoran hazirlik süresi
+bölgesel kuryeler
+(arac tipi)
+
+kuryenin restorana uzakligi
+kuryenin o gün gittigi toplam km
+max 3 order at the same time
+
+3 tane ordera sahip olan courier lar direk hesaplama disi kalacaklardir
+hangi kurye restorana en yakinsa siparisi o alir
+kurye yogunlugu = mesafe/zaman
+
+
+courier auth service + is_active setter if logs on
+8 li veri cekme system
+
+auth:
+1- createRefreshToken (userid, deviceInfo)
+2- deleteTokens (userid, refreshToken)
+3- createAccessToken (userid, role)
+4- findValidRefreshToken (userid, refreshToken)
+5- rotateRefreshToken (userid, oldRefreshToken, deviceInfo)
+6- revokeByDevice (userid, deviceInfo)
+7- login (loginDto)
+8- signup (signUpDto)
+
+users:
+1- addUser (createUserDto)
+2- updateUser (updateUserDto)
+3- deleteUser ()
+4- getUser ()
+5- addAddress (createAddressDto)
+6- updateAddress (updateAddressDto)
+7- getAddresses ()
+8- getFavProds ()
+9- getOrders () # postponed
+10- getFollows () # postponed
+
+sellers:
+1- getSeller (sellerid) # RBAC (Role-Based Access Control)
+2- updateSeller (sellerid, updateSellerDto)
+3- deleteSeller (sellerid)
+4- getComments (sellerid, sort)
+5- addComment (sellerid, createCommentDto)
+6- updateComment (sellerid, updateCommentDto)
+7- deleteComment (sellerid)
+8- addSeller (createSellerDto)
+
+prods:
+1- getProd (prodid)
+2- updateProd (prodid, updateProdDto)
+3- addProd (createProdDto)
+4- getComments (prodid, sort)
+5- addComment (prodid, createCommentDto)
+6- updateComment (prodid, updateCommentDto)
+7- deleteComment (prodid)
+8- getProdStock (prodid)
+9- deleteProd (prodid)
+
+cart:
+1- addItem (prodid)
+2- deleteItem (prodid)
+3- updateItemCount (prodid, count)
+4- makeOrder ()
+5- getCart ()
+6- clearCart ()
+
+orders:
+1- cancelOrder (orderid)
+2- reportOrder (orderid) # postponed
+3- confirmOrder (orderid)
+4- getOrderDetails (orderid)
+5- getUserOrders ()
+
+couriers:
+1- assignOrdertoCourier (orderid, courierid)
+2- getCourierOrders ()
+3- orderDelivered (orderid)
+4- orderCanceled (orderid)
+5- pickedUpOrder (orderid)
+6- reportOrder (orderid) # postponed
+
+otp:
+1- sendOtp (target, type)
+2- verifyOtp (target, code, type)
+
+follows:
+1- addFollow (sellerid)
+2- deleteFollow (sellerid)
+3- checkStatus (sellerid)
+
+favprods:
+1- addFavProds (prodid)
+2- deleteFavProd (prodid)
+3- checkStatus (prodid)
+
+hashtags:
+1- addHashtag (type, hashtag)
+2- deleteHashtag (type, hashtag)
+3- getByHashtag (type, hashtag)
+
+
+12 A.M. = sunucu bitecek
+4 A.M. = Android telefon calistirip telefona uygulama yükleme, ve uygulama temellerini atip tüm planlamayi yapma
+9 A.M. = uygulamada belirlenen görevlerin yapimi
+1k | 1.3k | 1.4k
+-600
+
+telefon calistir
+uygulama build et
+uygulama yükle
+loglari izle
+
+jetpack compose
+mvvm
+
+
+
+
+OTP (One Time Password)
+BFF (Backend For Frontend)
+// 1. Satıcı Temel Bilgileri (Satıcıya özel profil detayları)
+model Seller {
+  id               String         @id @default(uuid())
+  storeName        String         @unique // Mağaza adı (Örn: Ahmet Usta Kasap)
+  email            String         @unique // Giriş için
+  passwordHash     String                 // Şifre
+  phone            String         @unique
+  rating           Float          @default(0.0) // Genel değerlendirme puanı (Örn: 4.8)
+  reviewCount      Int            @default(0)   // Toplam değerlendirme sayısı
+  minBasketAmount  Decimal        @default(0)   // Minimum sepet tutarı
+  isApproved       Boolean        @default(false) // Admin onay durumu (pazar yeri mantığı için şart)
+  createdAt        DateTime       @default(now())
+
+  // İlişkiler
+  products         Product[]      // Satıcının ürünleri (1-to-Many)
+  reviews          SellerReview[] // Satıcıya yapılan yorumlar (1-to-Many)
+  hashtags         SellerHashtag[] // Satıcının hashtagleri (Many-to-Many ara tablo)
+}
+
+// 2. Ürünler Tablosu (Hangi satıcıya ait?)
+model Product {
+  id          String   @id @default(uuid())
+  sellerId    String   // Hangi esnafa ait?
+  name        String   // Ürün adı (Örn: Dana Kıymalık)
+  price       Decimal  // Fiyatı
+  stock       Int      // Stok adresi
+  imageUrl    String?  // Ürün görseli
+  isAvailable Boolean  @default(true) // Şu an satışta mı?
+  createdAt   DateTime @default(now())
+
+  seller      Seller   @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+}
+
+// 3. Satıcıya Özel Yorumlar ve Değerlendirmeler
+model SellerReview {
+  id        String   @id @default(uuid())
+  sellerId  String   // Hangi satıcıya yapıldı?
+  userId    String   // Hangi müşteri yaptı? (User tablosuna bağlanacak)
+  rating    Int      // 1-5 arası yıldız
+  comment   String?  // Yorum metni
+  createdAt DateTime @default(now())
+
+  seller    Seller   @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+}
+
+// 4. Hashtagler Tablosu
+model Hashtag {
+  id        String          @id @default(uuid())
+  name      String          @unique // Örn: #organik, #glutensiz, #mahalesnafi
+  sellers   SellerHashtag[]
+}
+
+// 5. Seller <-> Hashtag Ara Tablosu (Many-to-Many)
+model SellerHashtag {
+  sellerId  String
+  hashtagId String
+
+  seller    Seller  @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  hashtag   Hashtag @relation(fields: [hashtagId], references: [id], onDelete: Cascade)
+
+  @@id([sellerId, hashtagId])
+}
+
+
+
+
+
+model User {
+  id            String              @id @default(uuid())
+  username      String              @unique
+  email         String              @unique
+  
+  // Prisma arka planda bu ilişkileri otomatik yönetir, 
+  // Users tablosuna ekstra kolon açmaz!
+  likedProducts UserLikedProduct[]
+  following     SellerFollower[]
+}
+
+model Product {
+  id            String              @id @default(uuid())
+  name          String
+  
+  likedByUsers  UserLikedProduct[]
+}
+
+// Ara Tablo (Junction Table)
+model UserLikedProduct {
+  userId    String
+  productId String
+  user      User    @relation(fields: [userId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
+
+  @@id([userId, productId]) // İkili birleşik anahtar (Composite Primary Key)
+}
+

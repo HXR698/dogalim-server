@@ -1,0 +1,213 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id         String       @id @default(uuid())
+  username   String
+  email      String       @unique
+  pass_hash  String
+  phone      String?      @unique
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  
+  addresses  Address[]
+  orders     Orders[]
+  lastOrders LastOrders[]
+  follows    Follows[]
+  likedProds LikedProds[]
+  prodComs   ProdCom[]
+  sellerComs SellerCom[]
+}
+
+model Seller {
+  id              String       @id @default(uuid())
+  storename       String
+  email           String       @unique
+  pass_hash       String
+  phone           String?      @unique
+  rating          Float        @default(0.0)
+  reviewcount     Int          @default(0)
+  minbasketamount Float        @default(0.0)
+  isapproved      Boolean      @default(false)
+  is_open         Boolean      @default(true)
+  created_at      DateTime     @default(now())
+
+  products        Prod[]
+  followers       Follows[]
+  sellerHashtags  SellerHtIt[]
+  sellerComs      SellerCom[]
+}
+
+model Address {
+  id        String   @id @default(uuid())
+  userid    String
+  title     String
+  address   String
+  user      User         @relation(fields: [userid], references: [id], onDelete: Cascade)
+
+  location  Unsupported("geography(Point, 4326)")?
+
+  orders       Orders[]
+  lastOrders   LastOrders[]
+}
+
+model Couriers {
+  id               String       @id @default(uuid())
+  name             String
+  phone            String       @unique
+  email            String       @unique
+  pass_hash        String
+  vehicle_type     String
+  is_active        Boolean      @default(true)
+
+  location         Unsupported("geography(Point, 4326)")?
+
+  today_distance   Float        @default(0.0)
+  active_seconds   Int          @default(0)
+  last_ping_at     DateTime?
+
+  orders            Orders[]
+  lastOrders        LastOrders[]
+}
+
+model Prod {
+  id              String       @id @default(uuid())
+  sellerid        String
+  seller          Seller       @relation(fields: [sellerid], references: [id], onDelete: Cascade)
+  name            String
+  price           Float
+  stock           Int          @default(0)
+  description     String?
+  rating          Float        @default(0.0)
+  reviewcount     Int          @default(0)
+  imageUrl        String?
+  isAvailable     Boolean      @default(true)
+  prepare_time    Int
+  created_at      DateTime     @default(now())
+
+  orderItems      OrderItem[]
+  likedBy         LikedProds[]
+  productHashtags ProdHtIt[]
+  comments        ProdCom[]
+}
+
+model Orders {
+  id                    String      @id @default(uuid())
+  userid                String
+  user                  User        @relation(fields: [userid], references: [id])
+  total_amount          Float
+  courierid             String?
+  courier               Couriers?   @relation(fields: [courierid], references: [id])
+  status                String      @default("PENDING") // PENDING, PREPARING, PREPARED, WAITING, ON_THE_WAY, COMPLETED, CANCELLED
+  payment_method        String
+  addressid             String
+  address               Address     @relation(fields: [addressid], references: [id])
+  estimated_prep_time   Int?
+  created_at            DateTime    @default(now())
+
+  items                 OrderItem[]
+}
+
+model OrderItem {
+  id       String   @id @default(uuid())
+  orderid  String
+  order    Orders   @relation(fields: [orderid], references: [id], onDelete: Cascade)
+  prodid   String
+  product  Prod     @relation(fields: [prodid], references: [id])
+  quantity Int
+  price    Float    // siparis verildigi an ki birim fiyati
+}
+
+model LastOrders {
+  id                    String    @id @default(uuid())
+  userid                String
+  user                  User      @relation(fields: [userid], references: [id])
+  total_amount          Float
+  courierid             String?
+  courier               Couriers? @relation(fields: [courierid], references: [id])
+  payment_method        String
+  addressid             String
+  address               Address   @relation(fields: [addressid], references: [id])
+  estimated_prep_time   Int?
+  created_at            DateTime
+  delivered_at          DateTime  @default(now())
+}
+
+model Follows {
+  userid     String
+  user       User     @relation(fields: [userid], references: [id], onDelete: Cascade)
+  sellerid   String
+  seller     Seller   @relation(fields: [sellerid], references: [id], onDelete: Cascade)
+  created_at DateTime @default(now())
+
+  @@id([userid, sellerid])
+}
+
+model LikedProds {
+  userid     String
+  user       User     @relation(fields: [userid], references: [id], onDelete: Cascade)
+  prodid     String
+  product    Prod     @relation(fields: [prodid], references: [id], onDelete: Cascade)
+  created_at DateTime @default(now())
+
+  @@id([userid, prodid])
+}
+
+model SellerHt {
+  id      String       @id @default(uuid())
+  name    String       @unique
+  sellers SellerHtIt[]
+}
+
+model ProdHt {
+  id       String     @id @default(uuid())
+  name     String     @unique
+  products ProdHtIt[]
+}
+
+model SellerHtIt {
+  sellerid  String
+  seller    Seller   @relation(fields: [sellerid], references: [id], onDelete: Cascade)
+  hashtagid String
+  hashtag   SellerHt @relation(fields: [hashtagid], references: [id], onDelete: Cascade)
+
+  @@id([sellerid, hashtagid])
+}
+
+model ProdHtIt {
+  prodid    String
+  prod      Prod     @relation(fields: [prodid], references: [id], onDelete: Cascade)
+  hashtagid String
+  hashtag   ProdHt   @relation(fields: [hashtagid], references: [id], onDelete: Cascade)
+
+  @@id([prodid, hashtagid])
+}
+
+model ProdCom {
+  prodid     String
+  product    Prod     @relation(fields: [prodid], references: [id], onDelete: Cascade)
+  userid     String
+  user       User     @relation(fields: [userid], references: [id], onDelete: Cascade)
+  rating     Int      // 1 to 5
+  comment    String?
+  created_at DateTime @default(now())
+
+  @@id([prodid, userid])
+}
+
+model SellerCom {
+  sellerid   String
+  seller     Seller   @relation(fields: [sellerid], references: [id], onDelete: Cascade)
+  userid     String
+  user       User     @relation(fields: [userid], references: [id], onDelete: Cascade)
+  rating     Int      // 1 to 5
+  comment    String?
+  created_at DateTime @default(now())
+
+  @@id([sellerid, userid])
+}
